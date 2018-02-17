@@ -1,1 +1,1 @@
-# spooky-authot-kaggle
+# spooky-author-kaggle
