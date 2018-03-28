@@ -337,7 +337,7 @@ ggplot(rankImportance, aes(x = reorder(Variables, Importance),
 
 
 # 1. Read test data
-test <- read_csv("train.csv")
+test <- read_csv("test.csv")
 
 ######################################################################
 
