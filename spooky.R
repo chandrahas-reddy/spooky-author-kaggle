@@ -219,6 +219,7 @@ train$Sentimentscore <- sentiment_score[,2]
 train$SentimentLabel <- sentiment_score[,3]
 View(train)
 
+
 ######################################################################
 
 #4. Stratified Split
@@ -262,6 +263,7 @@ spookyLabeledTerms.Test$Nsemicolons <- split.test$semicolumns
 
 spookyLabeledTerms$Ncolons <- split.train$colons
 spookyLabeledTerms.Test$Ncolons <- split.test$colons
+
 
 spookyLabeledTerms$author = as.factor(split.train$author)
 levels(spookyLabeledTerms$author) = make.names(unique(spookyLabeledTerms$author))
@@ -326,4 +328,96 @@ ggplot(rankImportance, aes(x = reorder(Variables, Importance),
 ######################################################################
 
 #--------Part-5--------#
-# 1. Performing prediction on test data set
+# 1. Read test data
+# 2. Adding comma features
+# 3. Performing sentiment analysis
+# 4. Preparing model for training
+# 5. Adding features to train and test
+# 6. Prediction
+
+
+# 1. Read test data
+test <- read_csv("train.csv")
+
+######################################################################
+
+# 2. Adding comma features
+test <- createFeature(test)
+
+######################################################################
+
+# 3. Performing sentiment analysis on train and test
+#get the train set sentiment scores from part-3
+
+#sentiment analysis on test
+spooky_sentiment <- as.data.frame(test$text)
+colnames(spooky_sentiment)[1] <- "text"
+
+spooky_sentiment  <- sapply(spooky_sentiment ,function(row) iconv(row, "latin1", "ASCII", sub=""))
+
+#sentiment score
+sentiment_score <- score.sentiment(spooky_sentiment, pos, neg, .progress='text')
+summary(sentiment_score)
+View(sentiment_score)
+
+#Convert sentiment scores from numeric to character to enable the gsub function 
+sentiment_score$sentiment <- as.character(sentiment_score$score)
+
+#After looking at the summary(sentiment_Score$sentiment) decide on a threshold for the sentiment labels
+sentiment_score$sentiment <- gsub("^0$", "Neutral", sentiment_score$sentiment)
+sentiment_score$sentiment <- gsub("^1$|^2$|^3$|^4$", "Positive", sentiment_score$sentiment)
+sentiment_score$sentiment <- gsub("^5$|^6$|^7$|^8$|^9$|^10$|^11$|^12$|^13$|^14$|^15$|^16$|^17$|^18$|^19$|^20$|^21$|^22$|^23$|^24$|^25$", "Very Positive", sentiment_score$sentiment)
+sentiment_score$sentiment <- gsub("^-1$|^-2$|^-3$|^-4$", "Negative", sentiment_score$sentiment)
+sentiment_score$sentiment <- gsub("^-5$|^-6$|^-7$|^-8$|^-9$|^-10$|^-11$|^-12$", "Very Negative", sentiment_score$sentiment)
+
+View(sentiment_score)
+
+#adding sentiment to test
+test$Sentimentscore <- sentiment_score[,2]
+test$SentimentLabel <- sentiment_score[,3]
+View(test)
+
+######################################################################
+
+# 4. Preparing model for training
+spookyLabeledTerms <- funcDTM(train)
+spookyLabeledTerms.Test <- funcDTM(test)
+
+colnamesSame = intersect(colnames(spookyLabeledTerms),colnames(spookyLabeledTerms.Test))
+
+spookyLabeledTerms = spookyLabeledTerms[ , (colnames(spookyLabeledTerms) %in% colnamesSame)]
+spookyLabeledTerms.Test = spookyLabeledTerms.Test[ , (colnames(spookyLabeledTerms.Test) %in% colnamesSame)]
+
+######################################################################
+
+# 5. Adding features to train and test
+spookyLabeledTerms$Length <- train$TextLength
+spookyLabeledTerms.Test$Length <- test$TextLength
+
+spookyLabeledTerms$sentimentscore <- train$Sentimentscore
+spookyLabeledTerms.Test$sentimentscore <- test$Sentimentscore
+
+spookyLabeledTerms$Ncommas <- train$commas
+spookyLabeledTerms.Test$Ncommas <- test$commas
+
+spookyLabeledTerms$Nsemicolons <- train$semicolumns
+spookyLabeledTerms.Test$Nsemicolons <- test$semicolumns
+
+spookyLabeledTerms$Ncolons <- train$colons
+spookyLabeledTerms.Test$Ncolons <- test$colons
+
+spookyLabeledTerms$author = as.factor(train$author)
+levels(spookyLabeledTerms$author) = make.names(unique(spookyLabeledTerms$author))
+
+
+#prediction
+predictions <- predict(AuthorXGB, spookyLabeledTerms.Test, type = 'prob')
+
+#creating solution data frame
+spookySolution <- data.frame('id' = test$id, predictions)
+
+#view solution
+head(spookySolution, n= 10)
+
+######################################################################
+
