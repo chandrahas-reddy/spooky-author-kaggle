@@ -291,7 +291,8 @@ AuthorXGB = train(formula, data = spookyLabeledTerms,
                   metric="LogLoss", maximize=FALSE)
 
 # getting the importance of variables
-varImp(AuthorXGB)
+importance <- varImp(AuthorXGB)
+importance
 
 ######################################################################
 
@@ -311,7 +312,7 @@ rankImportance <- varImportance %>%
   mutate(Rank = paste0('#',dense_rank(desc(Importance)))) %>%
   head(20)
 
-rankImportancefull = rankImportance
+rankImportancefull <- rankImportance
 
 ggplot(rankImportance, aes(x = reorder(Variables, Importance), 
                            y = Importance)) +
