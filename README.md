@@ -84,7 +84,7 @@ topics<-tidy(lda, matrix="beta")
 
 count_bigrams(train)
 
-![alt text](https://raw.githubusercontent.com/chandrahas-reddy/spooky-author-kaggle/blob/chandrahas/bigrams.PNG)
+![alt text](https://raw.githubusercontent.com/chandrahas-reddy/spooky-author-kaggle/bigrams.PNG)
 
 *trigrams
 
