@@ -64,8 +64,7 @@ Let's divide our analysis into 5 parts:
 train <- read.csv("train.csv", stringsAsFactors = FALSE)
 test <- read.csv("test.csv", stringsAsFactors = FALSE)
 
-![alt text](https://raw.githubusercontent.com/chandrahas-reddy/spooky-author-kaggle/blob/chandrahas/topics.jpeg
-)
+![alt text](https://raw.githubusercontent.com/chandrahas-reddy/spooky-author-kaggle/chandrahas/readData.PNG)
 
 **Data Exploration**
 Performing topic modelling:
@@ -78,19 +77,19 @@ topics<-tidy(lda, matrix="beta")
 
 *Visualization of top 10 terms of the 9 topics
 
-![alt text](https://raw.githubusercontent.com/chandrahas-reddy/spooky-author-kaggle/blob/chandrahas/topics.jpeg)
+![alt text](https://raw.githubusercontent.com/chandrahas-reddy/spooky-author-kaggle/chandrahas/topics.jpeg)
 
 *bigrams
 
 count_bigrams(train)
 
-![alt text](https://raw.githubusercontent.com/chandrahas-reddy/spooky-author-kaggle/bigrams.PNG)
+![alt text](https://raw.githubusercontent.com/chandrahas-reddy/spooky-author-kaggle/chandrahas/bigrams.PNG)
 
 *trigrams
 
 count_trigrams(train)
 
-![alt text](https://raw.githubusercontent.com/chandrahas-reddy/spooky-author-kaggle/blob/chandrahas/trigrams.PNG)
+![alt text](https://raw.githubusercontent.com/chandrahas-reddy/spooky-author-kaggle/chandrahas/trigrams.PNG)
 
 **Feature Engineering**
 Feature engineering is the process of using domain knowledge of the data to create features that make machine learning algorithms work.
