@@ -14,11 +14,13 @@ Out of all the available definitions on the web, the definition that caught my a
 This competition can be considered as a classic example for predictive modelling and analysis. Competition wants us to train a model based on the given train set, which contains text from various novels written by three writers Edgar Allen Poe (EPL), Mary Shelley (MWS), HP Lovecraft (HPL). Our final goal here is to predict author name for the test dataset which contains only text from the above mentioned authors in random.
 
 Programming Language: R 
+
 Algorithm used for training: XGBoost
 
 #2. Analysis
 
 **Approach to the solution**
+
 Let's divide our analysis into 5 parts:
 
 ###### #--------Part-1--------#
@@ -55,8 +57,10 @@ Let's divide our analysis into 5 parts:
  6. Prediction
 
 
-#3. A look into the code
+##3. A look into the code
+
 *Reading in train and test dataset
+
 train <- read.csv("train.csv", stringsAsFactors = FALSE)
 test <- read.csv("test.csv", stringsAsFactors = FALSE)
 
@@ -73,12 +77,15 @@ lda
 topics<-tidy(lda, matrix="beta")
 
 *Visualization of top 10 terms of the 9 topics
+
 ![alt text](https://drive.google.com/file/d/1hkoK7C2jyo8Md1nRMNQKMMTXTjrIYTp9/view?usp=sharing)
 
 *bigrams
+
 count_bigrams(train)
 
 *trigrams
+
 count_trigrams(train)
 
 **Feature Engineering**
@@ -93,7 +100,8 @@ Features:
 
 Look at the spooky.R file for all the code.
 
-#4. XGBoost and Results
+##4. XGBoost and Results
+
 XGBoost is an optimized distributed gradient boosting library designed to be highly efficient, flexible and portable. It implements machine learning algorithms under the Gradient Boosting framework. XGBoost provides a parallel tree boosting (also known as GBDT, GBM) that solve many data science problems in a fast and accurate way. The same code runs on major distributed environment (Hadoop, SGE, MPI) and can solve problems beyond billions of examples.
 
 **https://github.com/dmlc/xgboost**
