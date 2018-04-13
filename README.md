@@ -17,6 +17,7 @@ Programming Language: R
 Algorithm used for training: XGBoost
 
 #2. Analysis
+
 **Approach to the solution**
 Let's divide our analysis into 5 parts:
 
