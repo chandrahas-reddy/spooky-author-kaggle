@@ -10,7 +10,7 @@
 
 # 1. Installing required packages----------
 install.packages(c("plyr", "dplyr", "ldatuning", "tidyverse", "tidytext", "stringr", "tm", "topicmodels",
-                   "ggplot2","caret","readr","text2vec", "xgboost", "e1071"))
+                   "ggplot2", "caret","readr","text2vec", "xgboost", "e1071"))
 
 # 2. Loading packages------------
 library(plyr)
